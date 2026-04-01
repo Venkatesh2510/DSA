@@ -42,26 +42,20 @@
 
 public class Solution {
     public int PivotIndex(int[] nums) {
-        int[] left = new int[nums.Length];
-        int[] right = new int[nums.Length];
-        int s=0;
+        int total=0;
         for(int i=0;i<nums.Length;i++)
         {
-            left[i]=s;
-            s+=nums[i];
+            total+=nums[i];
         }
-        s=0;
-        for(int i=nums.Length-1;i>=0;i--)
-        {
-            right[i]=s;
-            s+=nums[i];
-        }
+        int left=0, sum=0;
         for(int i=0;i<nums.Length;i++)
         {
-            if(left[i]==right[i])
+            sum=total-(left+nums[i]);
+            if(sum==left)
             {
                 return i;
             }
+            left+=nums[i];
         }
         return -1;
     }
