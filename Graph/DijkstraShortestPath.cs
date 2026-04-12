@@ -34,32 +34,33 @@
 
 public class Solution {
     public int NetworkDelayTime(int[][] times, int n, int k) {
-        var graph = new List<(int,int)>[n+1];
+        var graph=new List<(int,int)>[n+1];
         for(int i=0;i<=n;i++)
         {
-            graph[i]=new List<(int, int)>();
+            graph[i]=new List<(int,int)>();
         }
-        foreach(var t in times)
-        {       
-            int u=t[0];
-            int v=t[1];
-            int s=t[2];
-            graph[u].Add((v, s));
+        foreach(var node in times)
+        {
+            int u=node[0];
+            int v=node[1];
+            int w=node[2];
+            graph[u].Add((v,w));
         }
         var dist = new int[n+1];
         Array.Fill(dist, int.MaxValue);
+        var pq=new PriorityQueue<int,int>();
         dist[k]=0;
-        var pq = new PriorityQueue<(int node, int time), int>();
-        pq.Enqueue((k,0), 0);
+        pq.Enqueue(k,0);
         while(pq.Count>0)
         {
-            var (nd,t) = pq.Dequeue();
-            foreach(var (neighbour, weight) in graph[nd])
+            var curr = pq.Dequeue();
+            foreach(var (neighbour, time) in graph[curr])
             {
-                if(weight+t<dist[neighbour])
+                int newDist=dist[curr]+time;
+                if(newDist<dist[neighbour])
                 {
-                    dist[neighbour]=weight+t;
-                    pq.Enqueue((neighbour, dist[neighbour]), dist[neighbour]);
+                    dist[neighbour]=newDist;
+                    pq.Enqueue(neighbour, dist[neighbour]);
                 }
             }
         }
