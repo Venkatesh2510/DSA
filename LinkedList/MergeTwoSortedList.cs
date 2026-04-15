@@ -67,3 +67,16 @@ public class Solution {
         return dummy.next;
     }
 }
+
+public class SolutionRecursion {
+    public ListNode ReverseList(ListNode head) {
+        if(head==null||head.next==null)
+        {
+            return head;
+        }
+        ListNode newHead=ReverseList(head.next);
+        head.next.next=head; // reverse the front pointer
+        head.next=null; // break the current pointer to next as it is reverse;
+        return newHead;
+    }
+}
