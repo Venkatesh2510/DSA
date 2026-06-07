@@ -18,25 +18,31 @@
 
 // 1 <= n <= 8
 
+
 public class Solution {
     public IList<string> GenerateParenthesis(int n) {
         List<string> result = new List<string>();
-        helper("", result, n, 0, 0);    
+        StringBuilder sb = new StringBuilder();
+        helper(sb, result, n, 0, 0);    
         return result;
     }
-    void helper(string curr, List<string> list, int n, int open, int close)
+    void helper(StringBuilder curr, List<string> list, int n, int open, int close)
     {
         if(curr.Length == 2*n)
         {
-            list.Add(curr);
+            list.Add(curr.ToString());
         }
         if(open<n)
         {
-            helper(curr+'(',list,n, open+1, close);
+            curr.Append('(');
+            helper(curr,list,n, open+1, close);
+            curr.Length--;
         }
         if(close<open)
         {
-            helper(curr+')',list,n, open, close+1);
+            curr.Append(')');
+            helper(curr,list,n, open, close+1);
+            curr.Length--;
         }
         return;
     }
