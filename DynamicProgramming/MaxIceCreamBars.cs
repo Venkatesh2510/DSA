@@ -36,16 +36,41 @@
 // 1 <= costs[i] <= 105
 // 1 <= coins <= 108
 
-
 public class Solution {
     public int MaxIceCream(int[] costs, int coins) {
-        int[] dp=new int[costs.Length];
-        Array.Sort(costs);
-        for(int i=0;i<costs.Length;i++)
+        // int[] dp=new int[costs.Length];
+        // Array.Sort(costs);
+        // for(int i=0;i<costs.Length;i++)
+        // {
+        //     dp[i]=-1;
+        // }
+        // return helper(costs, coins, 0, dp);
+        int n=costs.Length;
+        int[] freq=new int[1000005];
+        for(int i=0;i<1000005;i++)
         {
-            dp[i]=-1;
+            freq[i]=0;
         }
-        return helper(costs, coins, 0, dp);
+        for(int i=0;i<n;i++)
+        {
+            freq[costs[i]]++;
+        }
+        int ans=0;
+        for(int i=0;i<1000005;i++)
+        {
+            if(freq[i]==0)
+            {
+                continue;
+            }
+            int c=Math.Min(freq[i], coins/i);
+            ans+=c;
+            coins-=i*c;
+            if(coins<0)
+            {
+                break;
+            }
+        }
+        return ans;
     }
     int helper(int[] costs, int coins, int curr,int[] dp)
     {
